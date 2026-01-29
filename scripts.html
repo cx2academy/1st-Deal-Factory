@@ -259,6 +259,166 @@
             border-color: rgba(250, 249, 246, 0.3);
         }
 
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            padding: 2rem;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--dark-bg);
+            border: 2px solid rgba(250, 249, 246, 0.15);
+            border-radius: 16px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 2rem;
+            border-bottom: 2px solid rgba(250, 249, 246, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--dark-bg);
+            z-index: 10;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--cream);
+        }
+
+        .close-button {
+            background: rgba(250, 249, 246, 0.08);
+            border: none;
+            color: var(--cream);
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-button:hover {
+            background: rgba(139, 21, 56, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .script-section {
+            margin-bottom: 2rem;
+        }
+
+        .script-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--maroon);
+            margin-bottom: 1rem;
+        }
+
+        .script-section h4 {
+            font-size: 1.125rem;
+            color: var(--cream);
+            margin: 1.5rem 0 0.75rem;
+            font-weight: 700;
+        }
+
+        .script-section p {
+            color: rgba(250, 249, 246, 0.8);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .script-section ul {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+
+        .script-section ul li {
+            color: rgba(250, 249, 246, 0.7);
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .script-section ul li::before {
+            content: '•';
+            color: var(--maroon);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -0.25rem;
+        }
+
+        .dialogue {
+            background: rgba(139, 21, 56, 0.1);
+            border-left: 4px solid var(--maroon);
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .dialogue strong {
+            color: var(--maroon);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(0, 102, 204, 0.1);
+            border: 2px dashed rgba(0, 102, 204, 0.3);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box strong {
+            color: var(--input-blue);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
         /* Info Banner */
         .info-banner {
             background: rgba(139, 21, 56, 0.15);
@@ -289,6 +449,10 @@
 
             h1 {
                 font-size: 2.5rem;
+            }
+
+            .modal-content {
+                max-height: 95vh;
             }
         }
 
@@ -336,7 +500,7 @@
 
         <div class="scripts-grid">
             <!-- Script 1: Cold Call -->
-            <div class="script-card">
+            <div class="script-card" onclick="openModal('coldCall')">
                 <div class="script-thumbnail">
                     <!-- Placeholder for thumbnail image -->
                     <!-- To add image: <img src="path/to/cold-call-thumbnail.jpg" alt="Cold Call Script"> -->
@@ -359,13 +523,13 @@
                         <li>Objection handling included</li>
                     </ul>
                     <div class="script-actions">
-                        <a href="1st_Deal_Factory_Certified_Cold_Call_Script.pdf" target="_blank" class="btn btn-primary">View Script PDF</a>
+                        <button class="btn btn-primary" onclick="event.stopPropagation(); openModal('coldCall')">View Script</button>
                     </div>
                 </div>
             </div>
 
             <!-- Script 2: Facebook Marketplace DM -->
-            <div class="script-card">
+            <div class="script-card" onclick="openModal('fbMarketplace')">
                 <div class="script-thumbnail">
                     <!-- Placeholder for thumbnail image -->
                     <!-- To add image: <img src="path/to/fb-marketplace-thumbnail.jpg" alt="FB Marketplace Script"> -->
@@ -388,13 +552,13 @@
                         <li>3-phase follow-up sequence</li>
                     </ul>
                     <div class="script-actions">
-                        <a href="Facebook_Marketplace_DM_Script_Flow.pdf" target="_blank" class="btn btn-primary">View Script PDF</a>
+                        <button class="btn btn-primary" onclick="event.stopPropagation(); openModal('fbMarketplace')">View Script</button>
                     </div>
                 </div>
             </div>
 
             <!-- Script 3: Follow-Up System -->
-            <div class="script-card">
+            <div class="script-card" onclick="openModal('followUp')">
                 <div class="script-thumbnail">
                     <!-- Placeholder for thumbnail image -->
                     <!-- To add image: <img src="path/to/follow-up-thumbnail.jpg" alt="Follow-Up Script"> -->
@@ -417,13 +581,13 @@
                         <li>When to stop following up</li>
                     </ul>
                     <div class="script-actions">
-                        <a href="1st_Deal_Factory_Follow_Up_Script.pdf" target="_blank" class="btn btn-primary">View Script PDF</a>
+                        <button class="btn btn-primary" onclick="event.stopPropagation(); openModal('followUp')">View Script</button>
                     </div>
                 </div>
             </div>
 
             <!-- Script 4: Objection Cheat Sheet -->
-            <div class="script-card">
+            <div class="script-card" onclick="openModal('objections')">
                 <div class="script-thumbnail">
                     <!-- Placeholder for thumbnail image -->
                     <!-- To add image: <img src="path/to/objections-thumbnail.jpg" alt="Objections Script"> -->
@@ -446,7 +610,7 @@
                         <li>Golden rules included</li>
                     </ul>
                     <div class="script-actions">
-                        <a href="Objection_Clean_Sheet.pdf" target="_blank" class="btn btn-primary">View Script PDF</a>
+                        <button class="btn btn-primary" onclick="event.stopPropagation(); openModal('objections')">View Script</button>
                     </div>
                 </div>
             </div>
@@ -456,5 +620,507 @@
             <p>© 2026 The 1st Deal Factory. Action takers get deals.</p>
         </footer>
     </div>
+
+    <!-- Modals -->
+    <div id="coldCallModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Cold Call Script</h2>
+                <button class="close-button" onclick="closeModal('coldCall')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="script-section">
+                    <h3>Opening (Neutral, Local, Non-Salesy)</h3>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Hey, is this [Seller Name]?"
+                    </div>
+                    <div class="dialogue">
+                        <strong>Seller:</strong>
+                        "Yeah, who's this?"
+                    </div>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "My name's [Your Name], I work with a fix and flip company here locally. I was calling about the property on [Street Name]. I was in the area, came across it, and wanted to see if you'd ever thought about selling it, or if you'd be open to a cash offer."
+                        <br><br><em>(Pause. Let them respond.)</em>
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h3>If They Say "NO" or "NOT REALLY"</h3>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Gotcha, totally understand. Out of curiosity though, if someone ever made you an offer that made sense, would you at least hear it out?"
+                    </div>
+                    <p>If still no → exit politely. If yes → continue.</p>
+                </div>
+
+                <div class="script-section">
+                    <h3>If They Say "MAYBE / POSSIBLY / YEAH"</h3>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Okay, cool. I appreciate you being open. Just so I'm not wasting your time, can I ask you a couple quick questions about it?"
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h3>Qualification Questions</h3>
+                    
+                    <h4>Motivation</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "What's the main reason you'd even consider selling it?"
+                        <br><em>(Let them talk. Do not interrupt.)</em>
+                    </div>
+
+                    <h4>Timing</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "If you did sell it, when would you ideally want that to happen?"
+                    </div>
+
+                    <h4>Condition</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "How's the property overall? Would you say it's livable as-is, or does it need some work?"
+                    </div>
+                    <p><strong>If needs work:</strong> "What kind of stuff are we talking about? Roof, kitchen, bathrooms, or mostly cosmetic?"</p>
+                    <p><strong>If it's fine:</strong> "Any big-ticket items replaced recently? Roof, HVAC, plumbing?"</p>
+                </div>
+
+                <div class="script-section">
+                    <h3>Price Discovery</h3>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "If you decided to sell it, do you have a ballpark number in mind?"
+                    </div>
+                    <p><strong>If they give a price:</strong> (Pause 2 seconds) "Okay... I appreciate you sharing that." <em>(No reaction. No negotiating yet.)</em></p>
+                    <p><strong>If they ask you first:</strong> "I usually like to hear what makes sense for you before throwing out a number."</p>
+                </div>
+
+                <div class="script-section">
+                    <h3>The Close (Soft, Not Desperate)</h3>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Based on what you told me, it sounds like something we could make work. What I need to do is run the numbers and see if it makes sense on our end. If it does, would you be open to moving forward?"
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>FINAL RULES:</strong>
+                    <ul>
+                        <li>Don't say "wholesaler"</li>
+                        <li>Don't over-explain</li>
+                        <li>Don't talk too much</li>
+                        <li>Don't chase</li>
+                        <li>Stay calm</li>
+                        <li>Stay consistent</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="fbMarketplaceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">FB Marketplace DM Flow</h2>
+                <button class="close-button" onclick="closeModal('fbMarketplace')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="script-section">
+                    <h3>Phase 1: The Filter</h3>
+                    
+                    <h4>Step 1: Initial Opener</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Hey, I'm very interested. Are you a realtor or the homeowner?"
+                    </div>
+                    <div class="highlight-box">
+                        <strong>Why it works:</strong> Filters agents instantly, puts you in control, and feels like a natural inquiry.
+                    </div>
+
+                    <h4>Step 2: If They're a Realtor/Agent</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Got it, appreciate the honesty. I'll pass for now."
+                    </div>
+                    <p><em>Action: End the conversation. Delete. Move on. No explaining or justifying.</em></p>
+
+                    <h4>Step 3: If They're the Homeowner</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Perfect, thanks. Are you selling it yourself or do you have an agent helping you at all?"
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h3>Phase 2: Positioning & Motivation</h3>
+                    
+                    <h4>Step 4: If They Have an Agent (But responded to you)</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "That makes sense. Are you open to a direct cash offer if it made sense, or are you pretty set on going the traditional route?"
+                    </div>
+
+                    <h4>Step 5: Soft Context</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Reason I ask is I work with a small local fix-and-flip group and we buy properties as-is, no repairs or showings."
+                    </div>
+
+                    <h4>Step 6: Permission-Based Motivation Probe</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Out of curiosity, what's got you thinking about selling this one?"
+                    </div>
+                    <p><strong>If they dodge:</strong> "Totally fair. Is it more of a 'just testing the market' situation or are you hoping to sell sooner rather than later?"</p>
+
+                    <h4>Step 7: Timeline Check</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "If everything lined up, how soon would you want to be done with it?"
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h3>Phase 3: The Numbers & Condition</h3>
+                    
+                    <h4>Step 8: Price Discovery</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Have you had a price in mind that you'd feel good about, or are you just seeing what kind of offers come in?"
+                    </div>
+                    <p><em>Rule: Let the seller speak first. If they give a number, do not react yet.</em></p>
+
+                    <h4>Step 9: Condition Snapshot</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Got it. How's the property overall? Any major repairs I should know about like roof, foundation, or HVAC?"
+                    </div>
+
+                    <h4>Step 10: Soft Reality Anchor</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Okay, that helps. Most of the homes we buy need a little work, so our offers usually reflect that, but it keeps things fast and simple."
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h3>Phase 4: Negotiation & Objections</h3>
+                    
+                    <h4>Step 12: Ballpark Range</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "If we were to be somewhere around [Low Number] to [High Number], would that even be worth continuing the conversation?"
+                    </div>
+                    <p><em>Rule: Never say "offer" yet. Use the phrase "somewhere around."</em></p>
+
+                    <h4>Step 13: If They Say "Too Low"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "I get that. I just want to be upfront so we don't waste each other's time. What number would you actually need to make it worth it?"
+                    </div>
+
+                    <h4>Step 14: If They Say "I Need to Think"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Totally understand. Why don't you think it over and I'll check back in a couple days?"
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h3>Phase 5: Follow-Up Sequence</h3>
+                    <p><strong>Day 2:</strong> "Hey, just wanted to circle back and see if selling the property is still something you're open to."</p>
+                    <p><strong>Day 5:</strong> "Still interested in selling, or did you decide to go a different direction?"</p>
+                    <p><strong>Day 10:</strong> "No worries if now's not the right time. If anything changes, feel free to reach out."</p>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>Core Rules for Success:</strong>
+                    <ul>
+                        <li>Never explain wholesaling</li>
+                        <li>Never over-text. Keep messages brief</li>
+                        <li>Listen more than you talk</li>
+                        <li>Stay calm. Confidence comes from clarity, not pressure</li>
+                        <li>Consistency closes deals</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="followUpModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Follow-Up System</h2>
+                <button class="close-button" onclick="closeModal('followUp')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="script-section">
+                    <h3>The Follow-Up Mindset</h3>
+                    <p><strong>The deal is never dead until they say "no" twice.</strong></p>
+                    <p>Follow-up is defined by value and consistency, not pressure. Your objective is to:</p>
+                    <ul>
+                        <li>Maintain a presence as a professional option</li>
+                        <li>Facilitate a streamlined decision-making process</li>
+                        <li>Ensure the seller retains a sense of agency and control</li>
+                    </ul>
+                </div>
+
+                <div class="script-section">
+                    <h3>Follow-Up Timeline</h3>
+                    
+                    <h4>Day 0: Initial Contact</h4>
+                    <p>Send a text message 30–90 minutes following the initial conversation.</p>
+                    <div class="dialogue">
+                        <strong>Text:</strong>
+                        "Hello [Name], thank you for your time earlier. I am currently reviewing the figures and will reach out once I have a proposal that aligns with the property details."
+                    </div>
+
+                    <h4>Day 1</h4>
+                    <div class="dialogue">
+                        <strong>Text:</strong>
+                        "Hello [Name], following up briefly. Are you still planning to review the details today or tomorrow?"
+                    </div>
+
+                    <h4>Day 3</h4>
+                    <div class="dialogue">
+                        <strong>Text:</strong>
+                        "I wanted to check in and see if any circumstances have changed on your end since our last conversation."
+                    </div>
+
+                    <h4>Day 5</h4>
+                    <div class="dialogue">
+                        <strong>Text:</strong>
+                        "Hello [Name], I am reviewing several properties this week. Should I keep this one on my active list, or would you prefer I check back at a later date?"
+                    </div>
+
+                    <h4>Day 7</h4>
+                    <div class="dialogue">
+                        <strong>Text:</strong>
+                        "Are you still open to a cash offer, or have you decided to pursue a different direction with the property?"
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h3>Weekly Follow-Up (Weeks 2–4)</h3>
+                    <p>Transmit one communication per week, rotating through these templates:</p>
+                    <ul>
+                        <li>"Checking in to see if you are still considering a sale, or if I should reach out further down the road."</li>
+                        <li>"This property came up in my notes today; I wanted to reach out and see where you stand."</li>
+                        <li>"If your timeline or requirements change in the future, please feel free to contact me directly."</li>
+                    </ul>
+                </div>
+
+                <div class="script-section">
+                    <h3>Long-Term Follow-Up (30–90 Days)</h3>
+                    <div class="highlight-box">
+                        <strong>Critical:</strong> This is where most wholesalers fail, yet where the majority of transactions are finalized.
+                    </div>
+                    <p>Contact the seller once every 2–4 weeks:</p>
+                    <div class="dialogue">
+                        <strong>Text:</strong>
+                        "Hello [Name], I hope you are doing well. I wanted to see if there have been any updates regarding the property."
+                    </div>
+                    <p><strong>Market Insight Variation:</strong> "Market conditions have shifted recently, so the valuation parameters may differ from our previous discussion."</p>
+                </div>
+
+                <div class="script-section">
+                    <h3>Protocol for Voice Follow-Up</h3>
+                    <p><strong>Engagement Triggers:</strong> Initiate a phone call if the seller was previously receptive, provided a specific timeline, or remained engaged via text.</p>
+                    <div class="dialogue">
+                        <strong>Call Script:</strong>
+                        "Hello [Name], this is [Your Name]. I wanted to reach out briefly to see how things have progressed on your end."
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h3>Termination of Follow-Up</h3>
+                    <p>Discontinue communication only under these conditions:</p>
+                    <ul>
+                        <li>The seller explicitly states "not interested" on two separate occasions</li>
+                        <li>A formal request to stop communication is made</li>
+                        <li>The interaction becomes unprofessional or non-constructive</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>Core Follow-Up Principles:</strong>
+                    <ul>
+                        <li>Avoid consecutive messaging: Do not send multiple messages without a response</li>
+                        <li>Maintain neutrality: Avoid emotional or defensive language</li>
+                        <li>Prioritize brevity: Do not over-explain the process</li>
+                        <li>Strategic spacing: Allow time between contacts to maintain professional value</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>Closing Insight:</strong> Sellers often finalize a decision when they feel a sense of security and professional consistency. Frequent, composed follow-up is the primary method for establishing that trust.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="objectionsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Objection Cheat Sheet</h2>
+                <button class="close-button" onclick="closeModal('objections')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="highlight-box">
+                    <strong>Instructions:</strong> Use these word-for-words. Speak calmly. Then, remain silent.
+                </div>
+
+                <div class="script-section">
+                    <h4>1. "I'm talking to other investors"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "That makes sense; most sellers I talk to are. I'm not trying to win you over, I just want to see if this is even a fit."
+                    </div>
+                    <p><em>Why it works: Removes competition pressure, positions you as selective, and lowers the seller's guard.</em></p>
+                </div>
+
+                <div class="script-section">
+                    <h4>2. "I need to think about it"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Totally fair. What part are you thinking through?"
+                    </div>
+                    <p><strong>If they say price:</strong> "Got it. Is it more about the number, or the process itself?"</p>
+                    <p><strong>If vague:</strong> "No rush at all. Want me to follow up in a couple days, or should I just let you reach out if you decide?"</p>
+                </div>
+
+                <div class="script-section">
+                    <h4>3. "Your price is too low"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "I figured you might say that. Help me understand, what were you hoping to be closer to?"
+                    </div>
+                    <p><strong>If they give a number:</strong> "Okay, and if we could get close to that, would you actually be ready to move forward?"</p>
+                </div>
+
+                <div class="script-section">
+                    <h4>4. "I want retail price"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "I hear you. Most sellers do. The trade-off with us is speed and simplicity, not top dollar."
+                    </div>
+                    <p><em>(Pause after speaking)</em></p>
+                </div>
+
+                <div class="script-section">
+                    <h4>5. "I'm not in a rush"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "That's good—no pressure then. If the right offer came along, would you still consider it?"
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h4>6. "I want to list it"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "That's a solid option. Some sellers just don't want showings, repairs, or waiting. Just depends what matters more to you."
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h4>7. "Why so many questions?"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Fair question. I just don't want to throw out a number that doesn't make sense for either of us."
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h4>8. "How do I know you're legit?"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Totally get that. I work with a local fix-and-flip group and we close through a reputable title company. Everything's in writing."
+                    </div>
+                    <p><strong>Follow-up:</strong> "I can also walk you through the exact process if that helps."</p>
+                </div>
+
+                <div class="script-section">
+                    <h4>9. "Are you a wholesaler?"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "I work with a fix-and-flip company. Sometimes we keep properties, sometimes we partner with other buyers. Either way, we close the same."
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h4>10. "I don't want to sign anything yet"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "No problem. We wouldn't move forward unless you're comfortable anyway. What would you need to see to feel comfortable?"
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h4>11. "This feels too fast"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "That's fair. Fast doesn't mean rushed. You're in control the whole time."
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h4>12. "I'll call you back"</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        "Sounds good. Do you want me to check back in tomorrow or later this week?"
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>Golden Rules (Do Not Break):</strong>
+                    <ul>
+                        <li>Never argue</li>
+                        <li>Never "educate" to convince</li>
+                        <li>Never chase energy</li>
+                        <li>Calm confidence beats logic</li>
+                        <li>Silence is a tool</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(scriptName) {
+            const modal = document.getElementById(scriptName + 'Modal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(scriptName) {
+            const modal = document.getElementById(scriptName + 'Modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal.active').forEach(modal => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+        });
+    </script>
 </body>
 </html>
