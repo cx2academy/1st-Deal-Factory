@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1st Deal Factory - Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-bg: #2C2C2C;
+            --maroon: #8B1538;
+            --maroon-dark: #6B0F2A;
+            --cream: #FAF9F6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2C2C2C 50%, #1a1a1a 100%);
+            color: var(--cream);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(139, 21, 56, 0.15) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: var(--cream);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--maroon);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1rem;
+        }
+
+        .description {
+            font-size: 1.125rem;
+            color: rgba(250, 249, 246, 0.7);
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            line-height: 1.8;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+            padding: 2rem;
+            background: rgba(139, 21, 56, 0.1);
+            border-radius: 16px;
+            border: 2px dashed rgba(139, 21, 56, 0.3);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--maroon);
+            display: block;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: rgba(250, 249, 246, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .tool-card {
+            background: rgba(250, 249, 246, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(250, 249, 246, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border-color: var(--maroon);
+        }
+
+        .tool-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .tool-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--cream);
+            margin-bottom: 1rem;
+        }
+
+        .tool-description {
+            font-size: 1rem;
+            color: rgba(250, 249, 246, 0.7);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-features {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+
+        .tool-features li {
+            padding: 0.5rem 0;
+            color: rgba(250, 249, 246, 0.6);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tool-features li::before {
+            content: '✓';
+            color: var(--maroon);
+            font-weight: bold;
+            font-size: 1.125rem;
+        }
+
+        .launch-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-dark) 100%);
+            color: var(--cream);
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 21, 56, 0.3);
+        }
+
+        .launch-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(139, 21, 56, 0.5);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(250, 249, 246, 0.1);
+        }
+
+        footer p {
+            color: rgba(250, 249, 246, 0.5);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>The 1st Deal Factory</h1>
+            <p class="subtitle">Professional Wholesaling Tools</p>
+            <p class="description">
+                Everything you need to analyze deals and track your actions. 
+                Built for beginners, designed for success.
+            </p>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Free Forever</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">2</span>
+                <span class="stat-label">Essential Tools</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">Deals to Analyze</span>
+            </div>
+        </div>
+
+        <div class="tools-grid">
+            <a href="calculator.html" class="tool-card">
+                <span class="tool-icon">🧮</span>
+                <h2 class="tool-title">Deal Calculator</h2>
+                <p class="tool-description">
+                    Analyze wholesale deals instantly with professional calculations and deal quality ratings.
+                </p>
+                <ul class="tool-features">
+                    <li>Calculate maximum allowable offer</li>
+                    <li>Auto-analyze deal quality</li>
+                    <li>Track repair costs</li>
+                    <li>Screenshot-ready summaries</li>
+                </ul>
+                <div class="launch-button">Launch Calculator →</div>
+            </a>
+
+            <a href="action-tracker.html" class="tool-card">
+                <span class="tool-icon">📊</span>
+                <h2 class="tool-title">Action Tracker</h2>
+                <p class="tool-description">
+                    Track your daily wholesaling activities with gamified scoring and streak tracking.
+                </p>
+                <ul class="tool-features">
+                    <li>Log daily marketing actions</li>
+                    <li>Build momentum with streaks</li>
+                    <li>Weekly performance stats</li>
+                    <li>Auto-save progress</li>
+                </ul>
+                <div class="launch-button">Launch Tracker →</div>
+            </a>
+        </div>
+
+        <footer>
+            <p>© 2026 The 1st Deal Factory. Your first deal starts here.</p>
+        </footer>
+    </div>
+</body>
+</html>
