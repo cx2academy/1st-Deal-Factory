@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1st Deal Factory - Wholesale Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0A0A0A;
+            --bg-card: #171717;
+            --border: #262626;
+            --text-primary: #FAFAFA;
+            --text-secondary: #A3A3A3;
+            --red: #DC2626;
+            --red-hover: #B91C1C;
+            --success-green: #2D8659;
+            --warning-yellow: #F59E0B;
+            --input-blue: #0066CC;
+            --font-display: 'Manrope', system-ui, -apple-system, sans-serif;
+            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 4rem 0 3rem;
+            position: relative;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .tagline {
+            font-size: 1.25rem;
+            color: var(--red);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.6);
+            border-color: #404040;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+            letter-spacing: 0.01em;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: #1A1A1A;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--input-blue);
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            font-family: var(--font-body);
+        }
+
+        input[type="text"]::placeholder,
+        input[type="number"]::placeholder {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--red);
+            background: #0F0F0F;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+
+        /* Calculated Results */
+        .result-box {
+            background: #1A1A1A;
+            padding: 1rem;
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .result-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-value {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 800;
+        }
+
+        .result-value.highlight {
+            color: var(--red);
+            font-size: 1.75rem;
+        }
+
+        /* Deal Status */
+        .deal-status {
+            margin-top: 2rem;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            border: 2px solid;
+        }
+
+        .deal-status.killer {
+            background: rgba(45, 134, 89, 0.15);
+            border-color: var(--success-green);
+            color: var(--success-green);
+        }
+
+        .deal-status.solid {
+            background: rgba(0, 102, 204, 0.15);
+            border-color: var(--input-blue);
+            color: var(--input-blue);
+        }
+
+        .deal-status.dead {
+            background: rgba(220, 38, 38, 0.15);
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        /* Deal Summary */
+        .deal-summary {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .summary-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            letter-spacing: -0.01em;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            background: #1A1A1A;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .summary-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .summary-value {
+            font-weight: 700;
+            color: var(--red);
+            font-size: 1.125rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-card {
+            background: #1A1A1A;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: #0F0F0F;
+            border-color: #404040;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        /* Property Info Section */
+        .property-info {
+            grid-column: 1 / -1;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .property-info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .card {
+            animation: slideIn 0.6s ease;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .property-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Help Text */
+        .help-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The 1st Deal Factory</h1>
+            <p class="tagline">Wholesale Deal Calculator</p>
+        </header>
+
+        <div class="main-grid">
+            <!-- Property Information -->
+            <div class="card property-info">
+                <div class="card-header">
+                    <h2 class="card-title">Property Information</h2>
+                    <span class="card-icon">🏠</span>
+                </div>
+                <div class="property-info-grid">
+                    <div class="form-group">
+                        <label for="address">Property Address</label>
+                        <input type="text" id="address" placeholder="123 Main St">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City, State</label>
+                        <input type="text" id="city" placeholder="Houston, TX">
+                    </div>
+                    <div class="form-group">
+                        <label for="beds">Beds / Baths</label>
+                        <input type="text" id="beds" placeholder="3 / 2">
+                    </div>
+                    <div class="form-group">
+                        <label for="sqft">Square Feet</label>
+                        <input type="number" id="sqft" placeholder="1500">
+                    </div>
+                    <div class="form-group">
+                        <label for="yearBuilt">Year Built</label>
+                        <input type="number" id="yearBuilt" placeholder="1985">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calculator -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Deal Calculator</h2>
+                    <span class="card-icon">🧮</span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="arv">ARV (After Repair Value)</label>
+                    <input type="number" id="arv" placeholder="250000">
+                    <p class="help-text">What's it worth fixed up?</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="sqftCost">Repair Cost per Sq Ft</label>
+                    <input type="number" id="sqftCost" placeholder="25" step="0.01">
+                    <p class="help-text">$10-$20 light, $20-$35 medium, $35-$50+ heavy</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="repairCosts">Estimated Repair Costs</label>
+                    <div class="result-box">
+                        <div class="result-label">Total Repairs</div>
+                        <div class="result-value" id="repairCostsDisplay">$0</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="investorDiscount">Investor Discount %</label>
+                    <input type="number" id="investorDiscount" placeholder="70" min="0" max="100">
+                    <p class="help-text">Typical: 65%-75% (enter 70 for 70%)</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="assignmentFee">Your Assignment Fee</label>
+                    <input type="number" id="assignmentFee" placeholder="10000">
+                    <p class="help-text">Your wholesaling profit</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Offer to Seller</label>
+                    <div class="result-box">
+                        <div class="result-label">Make This Offer</div>
+                        <div class="result-value highlight" id="offerDisplay">$0</div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Contract Price</div>
+                        <div class="stat-value" id="contractPrice">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Buyer's ROC</div>
+                        <div class="stat-value" id="buyerROC">0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deal Analyzer -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Deal Analyzer</h2>
+                    <span class="card-icon">📊</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="minSpread">Minimum Buyer Spread</label>
+                    <div class="result-box">
+                        <div class="result-label">Auto-Calculated</div>
+                        <div class="result-value" id="minSpreadDisplay">$15,000</div>
+                    </div>
+                    <p class="help-text">10% of ARV or $15k minimum</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Buyer Spread</div>
+                        <div class="stat-value" id="buyerSpread">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Confidence Score</div>
+                        <div class="stat-value" id="confidenceScore">0/10</div>
+                    </div>
+                </div>
+
+                <div class="deal-status" id="dealStatus" style="display: none;">
+                    <span id="statusText">Enter deal info</span>
+                </div>
+            </div>
+
+            <!-- Deal Summary -->
+            <div class="card full-width">
+                <div class="card-header">
+                    <h2 class="card-title">📋 Deal Summary - Screenshot This!</h2>
+                </div>
+                
+                <div class="deal-summary">
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <span class="summary-label">Property:</span>
+                            <span class="summary-value" id="summaryAddress">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Location:</span>
+                            <span class="summary-value" id="summaryCity">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Size:</span>
+                            <span class="summary-value" id="summarySize">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">ARV:</span>
+                            <span class="summary-value" id="summaryARV">$0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Repairs:</span>
+                            <span class="summary-value" id="summaryRepairs">$0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Your Offer:</span>
+                            <span class="summary-value" id="summaryOffer" style="color: var(--maroon); font-size: 1.5rem;">$0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Your Fee:</span>
+                            <span class="summary-value" id="summaryFee">$0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Buyer Spread:</span>
+                            <span class="summary-value" id="summarySpread">$0</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px solid rgba(139, 21, 56, 0.3);">
+                        <div style="font-size: 1rem; font-weight: 600; color: var(--cream); margin-bottom: 0.5rem;">Deal Status:</div>
+                        <div id="summaryStatus" style="font-size: 1.75rem; font-weight: 800;">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 The 1st Deal Factory. Your first deal starts here.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Get all input elements
+        const inputs = {
+            address: document.getElementById('address'),
+            city: document.getElementById('city'),
+            beds: document.getElementById('beds'),
+            sqft: document.getElementById('sqft'),
+            yearBuilt: document.getElementById('yearBuilt'),
+            arv: document.getElementById('arv'),
+            sqftCost: document.getElementById('sqftCost'),
+            investorDiscount: document.getElementById('investorDiscount'),
+            assignmentFee: document.getElementById('assignmentFee')
+        };
+
+        // Calculate everything when any input changes
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('input', calculate);
+        });
+
+        function calculate() {
+            // Get values
+            const arv = parseFloat(inputs.arv.value) || 0;
+            const sqft = parseFloat(inputs.sqft.value) || 0;
+            const sqftCost = parseFloat(inputs.sqftCost.value) || 0;
+            const discount = (parseFloat(inputs.investorDiscount.value) || 70) / 100;
+            const fee = parseFloat(inputs.assignmentFee.value) || 0;
+
+            // Calculate repair costs
+            const repairCosts = sqft * sqftCost;
+            document.getElementById('repairCostsDisplay').textContent = formatCurrency(repairCosts);
+
+            // Calculate offer
+            const offer = (arv * discount) - repairCosts - fee;
+            document.getElementById('offerDisplay').textContent = formatCurrency(offer);
+
+            // Calculate contract price
+            const contractPrice = offer + fee;
+            document.getElementById('contractPrice').textContent = formatCurrency(contractPrice);
+
+            // Calculate all-in cost
+            const allInCost = contractPrice + repairCosts;
+
+            // Calculate buyer's profit
+            const buyerProfit = arv - allInCost;
+
+            // Calculate buyer's ROC
+            const buyerROC = allInCost > 0 ? (buyerProfit / allInCost) * 100 : 0;
+            document.getElementById('buyerROC').textContent = buyerROC.toFixed(1) + '%';
+
+            // Calculate minimum spread (10% of ARV or $15k min)
+            const minSpread = Math.max(15000, arv * 0.10);
+            document.getElementById('minSpreadDisplay').textContent = formatCurrency(minSpread);
+
+            // Calculate buyer spread
+            const buyerSpread = buyerProfit - fee;
+            document.getElementById('buyerSpread').textContent = formatCurrency(buyerSpread);
+
+            // Calculate confidence score
+            const confidenceScore = minSpread > 0 ? Math.min(10, Math.max(1, Math.round((buyerSpread / minSpread) * 10))) : 1;
+            document.getElementById('confidenceScore').textContent = confidenceScore + '/10';
+
+            // Determine deal status
+            let statusText = '';
+            let statusClass = '';
+            
+            if (arv > 0) {
+                if (buyerSpread >= minSpread) {
+                    statusText = '🔥 GREAT DEAL';
+                    statusClass = 'killer';
+                } else if (buyerSpread >= minSpread * 0.7) {
+                    statusText = '⚠️ MARGINAL';
+                    statusClass = 'solid';
+                } else {
+                    statusText = '❌ DEAD DEAL';
+                    statusClass = 'dead';
+                }
+
+                const statusEl = document.getElementById('dealStatus');
+                statusEl.style.display = 'block';
+                statusEl.className = 'deal-status ' + statusClass;
+                document.getElementById('statusText').textContent = statusText;
+            }
+
+            // Update summary
+            updateSummary(arv, repairCosts, offer, fee, buyerSpread, statusText);
+        }
+
+        function updateSummary(arv, repairCosts, offer, fee, buyerSpread, statusText) {
+            document.getElementById('summaryAddress').textContent = inputs.address.value || '-';
+            document.getElementById('summaryCity').textContent = inputs.city.value || '-';
+            document.getElementById('summarySize').textContent = inputs.beds.value ? 
+                `${inputs.beds.value} / ${formatNumber(inputs.sqft.value)} sq ft` : '-';
+            document.getElementById('summaryARV').textContent = formatCurrency(arv);
+            document.getElementById('summaryRepairs').textContent = formatCurrency(repairCosts);
+            document.getElementById('summaryOffer').textContent = formatCurrency(offer);
+            document.getElementById('summaryFee').textContent = formatCurrency(fee);
+            document.getElementById('summarySpread').textContent = formatCurrency(buyerSpread);
+            document.getElementById('summaryStatus').textContent = statusText || '-';
+        }
+
+        function formatCurrency(value) {
+            if (value === 0) return '$0';
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(value);
+        }
+
+        function formatNumber(value) {
+            return new Intl.NumberFormat('en-US').format(value || 0);
+        }
+
+        // Initialize
+        calculate();
+    </script>
+</body>
+</html>

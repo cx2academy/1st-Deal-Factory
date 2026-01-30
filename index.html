@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1st Deal Factory - Tools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0A0A0A;
+            --bg-card: #171717;
+            --border: #262626;
+            --text-primary: #FAFAFA;
+            --text-secondary: #A3A3A3;
+            --red: #DC2626;
+            --red-hover: #B91C1C;
+            --font-display: 'Manrope', system-ui, -apple-system, sans-serif;
+            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+            --space-2: 0.5rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.6);
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-8);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: var(--space-16) 0;
+            position: relative;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--red);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-6);
+        }
+
+        .description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-8);
+            margin: var(--space-16) 0;
+            padding: var(--space-12) 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--red);
+            display: block;
+            line-height: 1;
+            margin-bottom: var(--space-2);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-8);
+            margin-top: var(--space-12);
+        }
+
+        .tool-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: var(--space-8);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--red);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: #404040;
+        }
+
+        .tool-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tool-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-6);
+            display: block;
+        }
+
+        .tool-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+            letter-spacing: -0.01em;
+        }
+
+        .tool-description {
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: var(--space-6);
+        }
+
+        .tool-features {
+            list-style: none;
+            padding: 0;
+            margin: var(--space-6) 0;
+            text-align: left;
+        }
+
+        .tool-features li {
+            padding: var(--space-2) 0;
+            color: #D4D4D4;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .tool-features li::before {
+            content: '✓';
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .launch-button {
+            display: inline-block;
+            padding: 0.875rem 2rem;
+            background: var(--red);
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+            margin-top: var(--space-4);
+        }
+
+        .launch-button:hover {
+            background: var(--red-hover);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: var(--space-16) 0 var(--space-8);
+            margin-top: var(--space-16);
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1>The 1st Deal Factory</h1>
+            <p class="subtitle">Professional Wholesaling Tools</p>
+            <p class="description">
+                Everything you need to analyze deals and track your actions. 
+                Built for beginners, designed for success.
+            </p>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Free Forever</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">3</span>
+                <span class="stat-label">Essential Tools</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">∞</span>
+                <span class="stat-label">Deals to Analyze</span>
+            </div>
+        </div>
+
+        <div class="tools-grid">
+            <a href="calculator.html" class="tool-card">
+                <span class="tool-icon">🧮</span>
+                <h2 class="tool-title">Deal Calculator</h2>
+                <p class="tool-description">
+                    Analyze wholesale deals instantly with professional calculations and deal quality ratings.
+                </p>
+                <ul class="tool-features">
+                    <li>Calculate maximum allowable offer</li>
+                    <li>Auto-analyze deal quality</li>
+                    <li>Track repair costs</li>
+                    <li>Screenshot-ready summaries</li>
+                </ul>
+                <div class="launch-button">Launch Calculator →</div>
+            </a>
+
+            <a href="action-tracker.html" class="tool-card">
+                <span class="tool-icon">📊</span>
+                <h2 class="tool-title">Action Tracker</h2>
+                <p class="tool-description">
+                    Track your daily wholesaling activities with gamified scoring and streak tracking.
+                </p>
+                <ul class="tool-features">
+                    <li>Log daily marketing actions</li>
+                    <li>Build momentum with streaks</li>
+                    <li>Weekly performance stats</li>
+                    <li>Auto-save progress</li>
+                </ul>
+                <div class="launch-button">Launch Tracker →</div>
+            </a>
+
+            <a href="scripts.html" class="tool-card">
+                <span class="tool-icon">📝</span>
+                <h2 class="tool-title">Script Library</h2>
+                <p class="tool-description">
+                    Certified word-for-word scripts for every conversation. No guessing, just proven language.
+                </p>
+                <ul class="tool-features">
+                    <li>Cold call script</li>
+                    <li>FB Marketplace DM flow</li>
+                    <li>Follow-up system</li>
+                    <li>Objection responses</li>
+                </ul>
+                <div class="launch-button">View Scripts →</div>
+            </a>
+        </div>
+
+        <footer>
+            <p>© 2026 The 1st Deal Factory. Your first deal starts here.</p>
+        </footer>
+    </div>
+</body>
+</html>

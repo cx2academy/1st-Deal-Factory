@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1st Deal Factory - Action Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0A0A0A;
+            --bg-card: #171717;
+            --border: #262626;
+            --text-primary: #FAFAFA;
+            --text-secondary: #A3A3A3;
+            --red: #DC2626;
+            --red-hover: #B91C1C;
+            --success-green: #2D8659;
+            --warning-yellow: #F59E0B;
+            --input-blue: #0066CC;
+            --font-display: 'Manrope', system-ui, -apple-system, sans-serif;
+            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 4rem 0 3rem;
+            position: relative;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .tagline {
+            font-size: 1.25rem;
+            color: var(--red);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Week Selector */
+        .week-selector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .week-selector label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .week-selector input {
+            padding: 0.75rem 1rem;
+            background: #1A1A1A;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--input-blue);
+            font-weight: 600;
+            font-family: var(--font-body);
+        }
+
+        /* Stats Summary */
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.6);
+            border-color: #404040;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .stat-value.highlight {
+            color: var(--red);
+        }
+
+        /* Motivation Banner */
+        .motivation-banner {
+            padding: 3rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 800;
+            font-size: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid;
+        }
+
+        .motivation-banner.fire {
+            background: rgba(45, 134, 89, 0.15);
+            border-color: var(--success-green);
+            color: var(--success-green);
+        }
+
+        .motivation-banner.momentum {
+            background: rgba(0, 102, 204, 0.15);
+            border-color: var(--input-blue);
+            color: var(--input-blue);
+        }
+
+        .motivation-banner.dial-in {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: var(--warning-yellow);
+            color: var(--warning-yellow);
+        }
+
+        /* Daily Tracker Table */
+        .tracker-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            overflow-x: auto;
+        }
+
+        .tracker-title {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            text-align: center;
+            letter-spacing: -0.01em;
+        }
+
+        .point-legend {
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            padding: 1rem;
+            text-align: center;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid var(--border);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: #1A1A1A;
+        }
+
+        tbody tr.killer-day {
+            background: rgba(45, 134, 89, 0.1);
+            border-left: 4px solid var(--success-green);
+        }
+
+        tbody tr.solid-day {
+            background: rgba(0, 102, 204, 0.1);
+            border-left: 4px solid var(--input-blue);
+        }
+
+        tbody tr.slow-day {
+            background: rgba(220, 38, 38, 0.1);
+            border-left: 4px solid var(--red);
+        }
+
+        td {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        td.day-label {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        td.date-cell {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        td input {
+            width: 80px;
+            padding: 0.5rem;
+            background: #1A1A1A;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--input-blue);
+            font-weight: 600;
+            text-align: center;
+            font-family: var(--font-body);
+            transition: all 0.2s ease;
+        }
+
+        td input:focus {
+            outline: none;
+            border-color: var(--red);
+            background: #0F0F0F;
+        }
+
+        .score-cell {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .streak-cell {
+            font-weight: 800;
+            font-size: 1.25rem;
+        }
+
+        .streak-0 {
+            color: var(--text-secondary);
+        }
+
+        .streak-low {
+            color: var(--warning-yellow);
+        }
+
+        .streak-high {
+            color: var(--success-green);
+        }
+
+        .status-cell {
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+
+        /* Instructions */
+        .instructions {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #1A1A1A;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .instructions h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stats-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .motivation-banner {
+                font-size: 1.75rem;
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .week-selector {
+                flex-direction: column;
+            }
+
+            table {
+                font-size: 0.75rem;
+            }
+
+            td input {
+                width: 60px;
+                padding: 0.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The 1st Deal Factory</h1>
+            <p class="tagline">Daily Action Tracker</p>
+        </header>
+
+        <!-- Week Selector -->
+        <div class="week-selector">
+            <label for="weekStart">Week Starting (Sunday):</label>
+            <input type="date" id="weekStart">
+        </div>
+
+        <!-- Motivation Banner -->
+        <div id="motivationBanner" class="motivation-banner dial-in">
+            🎯 Fill in your actions to see your status
+        </div>
+
+        <!-- Stats Summary -->
+        <div class="stats-summary">
+            <div class="stat-card">
+                <div class="stat-label">Total Actions</div>
+                <div class="stat-value" id="totalActions">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Daily Average</div>
+                <div class="stat-value highlight" id="dailyAverage">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Current Streak</div>
+                <div class="stat-value" id="currentStreak">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Best Day</div>
+                <div class="stat-value" id="bestDay">0</div>
+            </div>
+        </div>
+
+        <!-- Daily Tracker -->
+        <div class="tracker-container">
+            <h2 class="tracker-title">📝 This Week's Actions</h2>
+            <p class="point-legend">
+                Points: FB Messages ×1 | Cold Calls ×2 | Conversations ×3 | Offers ×5 | Follow-ups ×2
+            </p>
+
+            <table id="trackerTable">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Date</th>
+                        <th>FB Messages</th>
+                        <th>Cold Calls</th>
+                        <th>Conversations</th>
+                        <th>Offers</th>
+                        <th>Follow-Ups</th>
+                        <th>Total Score</th>
+                        <th>Streak</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="trackerBody">
+                    <!-- Rows generated by JavaScript -->
+                </tbody>
+            </table>
+
+            <div class="instructions">
+                <h3>📝 How to Use:</h3>
+                <p>1. Select your week's start date (Sunday) above<br>
+                2. Fill in your daily actions in the blue input boxes<br>
+                3. Your scores, streaks, and status update automatically<br>
+                4. Aim for 25+ points daily to build your streak!<br>
+                5. Data saves in your browser - come back anytime to update</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 The 1st Deal Factory. Action takers get deals.</p>
+        </footer>
+    </div>
+
+    <script>
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        
+        // Initialize with current week's Sunday
+        function getCurrentSunday() {
+            const today = new Date();
+            const day = today.getDay();
+            const sunday = new Date(today);
+            sunday.setDate(today.getDate() - day);
+            return sunday.toISOString().split('T')[0];
+        }
+
+        const weekStartInput = document.getElementById('weekStart');
+        weekStartInput.value = getCurrentSunday();
+
+        // Load saved data or initialize empty
+        let weekData = loadWeekData();
+
+        function loadWeekData() {
+            const saved = localStorage.getItem('weekData');
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            return initializeWeekData();
+        }
+
+        function saveWeekData() {
+            localStorage.setItem('weekData', JSON.stringify(weekData));
+        }
+
+        function initializeWeekData() {
+            return days.map(() => ({
+                fbMessages: 0,
+                coldCalls: 0,
+                conversations: 0,
+                offers: 0,
+                followUps: 0
+            }));
+        }
+
+        // Generate table rows
+        function generateTable() {
+            const tbody = document.getElementById('trackerBody');
+            tbody.innerHTML = '';
+            
+            const startDate = new Date(weekStartInput.value + 'T00:00:00');
+            
+            days.forEach((day, index) => {
+                const currentDate = new Date(startDate);
+                currentDate.setDate(startDate.getDate() + index);
+                const dateStr = currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                
+                const row = document.createElement('tr');
+                row.id = `day-${index}`;
+                
+                const data = weekData[index];
+                const score = calculateScore(data);
+                const streak = calculateStreak(index);
+                const status = getStatus(score);
+                
+                row.className = status.class;
+                
+                row.innerHTML = `
+                    <td class="day-label">${day}</td>
+                    <td class="date-cell">${dateStr}</td>
+                    <td><input type="number" min="0" data-day="${index}" data-field="fbMessages" value="${data.fbMessages}" /></td>
+                    <td><input type="number" min="0" data-day="${index}" data-field="coldCalls" value="${data.coldCalls}" /></td>
+                    <td><input type="number" min="0" data-day="${index}" data-field="conversations" value="${data.conversations}" /></td>
+                    <td><input type="number" min="0" data-day="${index}" data-field="offers" value="${data.offers}" /></td>
+                    <td><input type="number" min="0" data-day="${index}" data-field="followUps" value="${data.followUps}" /></td>
+                    <td class="score-cell">${score}</td>
+                    <td class="streak-cell ${getStreakClass(streak)}">${streak}</td>
+                    <td class="status-cell">${status.emoji} ${status.text}</td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            // Add event listeners to inputs
+            document.querySelectorAll('tbody input').forEach(input => {
+                input.addEventListener('input', handleInput);
+            });
+            
+            updateStats();
+        }
+
+        function handleInput(e) {
+            const day = parseInt(e.target.dataset.day);
+            const field = e.target.dataset.field;
+            const value = parseInt(e.target.value) || 0;
+            
+            weekData[day][field] = value;
+            saveWeekData();
+            updateRow(day);
+            updateStats();
+        }
+
+        function updateRow(dayIndex) {
+            const data = weekData[dayIndex];
+            const score = calculateScore(data);
+            const streak = calculateStreak(dayIndex);
+            const status = getStatus(score);
+            
+            const row = document.getElementById(`day-${dayIndex}`);
+            row.className = status.class;
+            row.querySelector('.score-cell').textContent = score;
+            row.querySelector('.streak-cell').textContent = streak;
+            row.querySelector('.streak-cell').className = 'streak-cell ' + getStreakClass(streak);
+            row.querySelector('.status-cell').innerHTML = `${status.emoji} ${status.text}`;
+        }
+
+        function calculateScore(data) {
+            return (data.fbMessages * 1) + 
+                   (data.coldCalls * 2) + 
+                   (data.conversations * 3) + 
+                   (data.offers * 5) + 
+                   (data.followUps * 2);
+        }
+
+        function calculateStreak(dayIndex) {
+            let streak = 0;
+            for (let i = dayIndex; i >= 0; i--) {
+                const score = calculateScore(weekData[i]);
+                if (score >= 25) {
+                    streak++;
+                } else {
+                    break;
+                }
+            }
+            return streak;
+        }
+
+        function getStatus(score) {
+            if (score >= 50) {
+                return { emoji: '🔥', text: 'Killer Day', class: 'killer-day' };
+            } else if (score >= 25) {
+                return { emoji: '💪', text: 'Solid Day', class: 'solid-day' };
+            } else {
+                return { emoji: '😴', text: 'Slow Day', class: 'slow-day' };
+            }
+        }
+
+        function getStreakClass(streak) {
+            if (streak === 0) return 'streak-0';
+            if (streak >= 3) return 'streak-high';
+            return 'streak-low';
+        }
+
+        function updateStats() {
+            const scores = weekData.map(calculateScore);
+            const total = scores.reduce((a, b) => a + b, 0);
+            const average = total / 7;
+            const best = Math.max(...scores);
+            const currentStreak = calculateStreak(6); // Check from last day
+            
+            document.getElementById('totalActions').textContent = total;
+            document.getElementById('dailyAverage').textContent = average.toFixed(1);
+            document.getElementById('currentStreak').textContent = currentStreak;
+            document.getElementById('bestDay').textContent = best;
+            
+            // Update motivation banner
+            const banner = document.getElementById('motivationBanner');
+            if (average >= 50) {
+                banner.textContent = "🔥 YOU'RE ON FIRE! 🔥";
+                banner.className = 'motivation-banner fire';
+            } else if (average >= 25) {
+                banner.textContent = "💪 You're Building Momentum";
+                banner.className = 'motivation-banner momentum';
+            } else {
+                banner.textContent = "🎯 Dial It In This Week";
+                banner.className = 'motivation-banner dial-in';
+            }
+        }
+
+        // Week change handler
+        weekStartInput.addEventListener('change', () => {
+            generateTable();
+        });
+
+        // Initialize
+        generateTable();
+    </script>
+</body>
+</html>
