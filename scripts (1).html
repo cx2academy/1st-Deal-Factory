@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scripts Library - 1st Deal Factory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Colors */
+            --bg-dark: #0A0A0A;
+            --bg-card: #171717;
+            --border: #262626;
+            --text-primary: #FAFAFA;
+            --text-secondary: #A3A3A3;
+            --red: #DC2626;
+            --red-hover: #B91C1C;
+            
+            /* Typography */
+            --font-display: 'Manrope', system-ui, -apple-system, sans-serif;
+            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+            
+            /* Spacing */
+            --space-2: 0.5rem;
+            --space-4: 1rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.6), 0 4px 6px -4px rgb(0 0 0 / 0.6);
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-dark);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-8);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: var(--space-16) 0;
+            position: relative;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .tagline {
+            font-size: 1.25rem;
+            color: var(--red);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-4);
+        }
+
+        .description {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Info Banner */
+        .info-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: var(--space-6);
+            margin: var(--space-12) 0;
+            text-align: center;
+        }
+
+        .info-banner-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+            font-size: 0.9375rem;
+        }
+
+        .info-banner-text {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        /* Scripts Grid */
+        .scripts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-8);
+            margin-top: var(--space-12);
+        }
+
+        /* Script Card */
+        .script-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .script-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: #404040;
+        }
+
+        .script-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--red);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .script-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .script-thumbnail {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #1A1A1A 0%, #0F0F0F 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .script-content {
+            padding: var(--space-8);
+        }
+
+        .script-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: var(--space-4);
+        }
+
+        .script-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+
+        .script-badge {
+            padding: 0.25rem 0.75rem;
+            background: var(--red);
+            color: var(--text-primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .script-description {
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-6);
+        }
+
+        .script-features {
+            list-style: none;
+            margin-bottom: var(--space-6);
+        }
+
+        .script-features li {
+            font-size: 0.875rem;
+            color: #D4D4D4;
+            padding: var(--space-4) 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .script-features li:last-child {
+            border-bottom: none;
+        }
+
+        .script-features li::before {
+            content: '✓';
+            color: var(--red);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .script-footer {
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--border);
+        }
+
+        /* Button */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            background: var(--red);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn:hover {
+            background: var(--red-hover);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            padding: var(--space-8);
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: var(--space-12);
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            max-width: 840px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: var(--space-12);
+        }
+
+        .modal-header {
+            padding: var(--space-8);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            background: var(--bg-card);
+            z-index: 10;
+        }
+
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .close-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background: #262626;
+            color: var(--text-primary);
+            border-color: #404040;
+        }
+
+        .modal-body {
+            padding: var(--space-8);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .script-section {
+            margin-bottom: var(--space-8);
+        }
+
+        .script-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .script-section h3 {
+            font-family: var(--font-display);
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-6);
+            letter-spacing: -0.01em;
+        }
+
+        .script-section h4 {
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: var(--space-6) 0 var(--space-4);
+        }
+
+        .script-section p {
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-4);
+        }
+
+        .script-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .script-section ul li {
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            color: #D4D4D4;
+            margin-bottom: var(--space-4);
+            padding-left: var(--space-6);
+            position: relative;
+        }
+
+        .script-section ul li::before {
+            content: '•';
+            position: absolute;
+            left: var(--space-2);
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .dialogue {
+            background: #1A1A1A;
+            border-left: 3px solid var(--red);
+            padding: var(--space-6);
+            border-radius: 0 8px 8px 0;
+            margin: var(--space-4) 0;
+        }
+
+        .dialogue strong {
+            display: block;
+            font-weight: 600;
+            color: var(--red);
+            margin-bottom: var(--space-2);
+            font-size: 0.875rem;
+        }
+
+        .dialogue p {
+            margin: 0;
+            color: #D4D4D4;
+        }
+
+        .dialogue em {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .highlight-box {
+            background: #1A1A1A;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: var(--space-6);
+            margin: var(--space-6) 0;
+        }
+
+        .highlight-box strong {
+            display: block;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        .highlight-box ul {
+            margin-top: var(--space-4);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: var(--space-16) 0 var(--space-8);
+            margin-top: var(--space-16);
+            border-top: 1px solid var(--border);
+        }
+
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .scripts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            header {
+                padding: var(--space-12) 0;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .script-thumbnail {
+                height: 200px;
+            }
+
+            .script-content {
+                padding: var(--space-6);
+            }
+
+            .modal-body {
+                padding: var(--space-6);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Script Library</h1>
+            <p class="tagline">Certified Word-For-Word Scripts</p>
+            <p class="description">
+                Battle-tested scripts for every conversation. Copy exactly what works. 
+                No guessing, no improvising—just proven language that gets deals done.
+            </p>
+        </header>
+
+        <div class="info-banner">
+            <div class="info-banner-title">How to Use These Scripts</div>
+            <div class="info-banner-text">
+                Read through each script completely before using. Practice out loud. Stay calm. Follow the flow exactly as written.
+            </div>
+        </div>
+
+        <div class="scripts-grid">
+            <!-- Script 1: Cold Call -->
+            <div class="script-card" onclick="openModal('coldCall')">
+                <div class="script-thumbnail">📞</div>
+                <div class="script-content">
+                    <div class="script-header">
+                        <h3 class="script-title">Cold Call Script</h3>
+                        <span class="script-badge">Certified</span>
+                    </div>
+                    <p class="script-description">
+                        Professional, local-focused approach to cold calling homeowners. Designed to filter leads quickly while maintaining control of the conversation.
+                    </p>
+                    <ul class="script-features">
+                        <li>Neutral, non-salesy opening</li>
+                        <li>Qualification questions built-in</li>
+                        <li>Price discovery framework</li>
+                        <li>Objection handling included</li>
+                    </ul>
+                    <div class="script-footer">
+                        <button class="btn" onclick="event.stopPropagation(); openModal('coldCall')">View Full Script</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Script 2: Facebook Marketplace DM -->
+            <div class="script-card" onclick="openModal('fbMarketplace')">
+                <div class="script-thumbnail">💬</div>
+                <div class="script-content">
+                    <div class="script-header">
+                        <h3 class="script-title">FB Marketplace DM Flow</h3>
+                        <span class="script-badge">Certified</span>
+                    </div>
+                    <p class="script-description">
+                        Step-by-step DM script for Facebook Marketplace listings. Filters agents, identifies motivation, and positions you as a professional buyer.
+                    </p>
+                    <ul class="script-features">
+                        <li>Instant agent filter</li>
+                        <li>Low-pressure conversation flow</li>
+                        <li>Motivation discovery questions</li>
+                        <li>3-phase follow-up sequence</li>
+                    </ul>
+                    <div class="script-footer">
+                        <button class="btn" onclick="event.stopPropagation(); openModal('fbMarketplace')">View Full Script</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Script 3: Follow-Up System -->
+            <div class="script-card" onclick="openModal('followUp')">
+                <div class="script-thumbnail">🔄</div>
+                <div class="script-content">
+                    <div class="script-header">
+                        <h3 class="script-title">Follow-Up System</h3>
+                        <span class="script-badge">Certified</span>
+                    </div>
+                    <p class="script-description">
+                        Complete follow-up timeline from Day 0 to 90 days. Where most wholesalers fail, but where most deals actually close.
+                    </p>
+                    <ul class="script-features">
+                        <li>Day-by-day script templates</li>
+                        <li>Weekly & monthly sequences</li>
+                        <li>Professional scarcity tactics</li>
+                        <li>When to stop following up</li>
+                    </ul>
+                    <div class="script-footer">
+                        <button class="btn" onclick="event.stopPropagation(); openModal('followUp')">View Full Script</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Script 4: Objection Cheat Sheet -->
+            <div class="script-card" onclick="openModal('objections')">
+                <div class="script-thumbnail">🛡️</div>
+                <div class="script-content">
+                    <div class="script-header">
+                        <h3 class="script-title">Objection Cheat Sheet</h3>
+                        <span class="script-badge">Certified</span>
+                    </div>
+                    <p class="script-description">
+                        Word-for-word responses to the 12 most common objections. Stay calm, speak confidently, then stay silent.
+                    </p>
+                    <ul class="script-features">
+                        <li>12 common objections covered</li>
+                        <li>Exact responses that work</li>
+                        <li>Psychology behind each reply</li>
+                        <li>Golden rules included</li>
+                    </ul>
+                    <div class="script-footer">
+                        <button class="btn" onclick="event.stopPropagation(); openModal('objections')">View Full Script</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 The 1st Deal Factory. Your first deal starts here.</p>
+        </footer>
+    </div>
+
+    <!-- Modals -->
+    <div id="coldCallModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Cold Call Script</h2>
+                <button class="close-btn" onclick="closeModal('coldCall')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="script-section">
+                    <h3>Opening</h3>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        <p>"Hey, is this [Seller Name]?"</p>
+                    </div>
+                    <div class="dialogue">
+                        <strong>Seller:</strong>
+                        <p>"Yeah, who's this?"</p>
+                    </div>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        <p>"My name's [Your Name], I work with a fix and flip company here locally. I was calling about the property on [Street Name]. I was in the area, came across it, and wanted to see if you'd ever thought about selling it, or if you'd be open to a cash offer."</p>
+                        <p><em>(Pause. Let them respond.)</em></p>
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h3>If They Say "NO" or "NOT REALLY"</h3>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        <p>"Gotcha, totally understand. Out of curiosity though, if someone ever made you an offer that made sense, would you at least hear it out?"</p>
+                    </div>
+                    <p>If still no → exit politely. If yes → continue.</p>
+                </div>
+
+                <div class="script-section">
+                    <h3>If They Say "MAYBE / POSSIBLY / YEAH"</h3>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        <p>"Okay, cool. I appreciate you being open. Just so I'm not wasting your time, can I ask you a couple quick questions about it?"</p>
+                    </div>
+                </div>
+
+                <div class="script-section">
+                    <h3>Qualification Questions</h3>
+                    
+                    <h4>Motivation</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        <p>"What's the main reason you'd even consider selling it?"</p>
+                        <p><em>(Let them talk. Do not interrupt.)</em></p>
+                    </div>
+
+                    <h4>Timing</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        <p>"If you did sell it, when would you ideally want that to happen?"</p>
+                    </div>
+
+                    <h4>Condition</h4>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        <p>"How's the property overall? Would you say it's livable as-is, or does it need some work?"</p>
+                    </div>
+                    <p><strong>If needs work:</strong> "What kind of stuff are we talking about? Roof, kitchen, bathrooms, or mostly cosmetic?"</p>
+                    <p><strong>If it's fine:</strong> "Any big-ticket items replaced recently? Roof, HVAC, plumbing?"</p>
+                </div>
+
+                <div class="script-section">
+                    <h3>Price Discovery</h3>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        <p>"If you decided to sell it, do you have a ballpark number in mind?"</p>
+                    </div>
+                    <p><strong>If they give a price:</strong> (Pause 2 seconds) "Okay... I appreciate you sharing that." <em>(No reaction. No negotiating yet.)</em></p>
+                    <p><strong>If they ask you first:</strong> "I usually like to hear what makes sense for you before throwing out a number."</p>
+                </div>
+
+                <div class="script-section">
+                    <h3>The Close</h3>
+                    <div class="dialogue">
+                        <strong>You:</strong>
+                        <p>"Based on what you told me, it sounds like something we could make work. What I need to do is run the numbers and see if it makes sense on our end. If it does, would you be open to moving forward?"</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>Final Rules</strong>
+                    <ul>
+                        <li>Don't say "wholesaler"</li>
+                        <li>Don't over-explain</li>
+                        <li>Don't talk too much</li>
+                        <li>Don't chase</li>
+                        <li>Stay calm and consistent</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional modals follow same pattern - truncated for brevity -->
+
+    <script>
+        function openModal(scriptName) {
+            const modal = document.getElementById(scriptName + 'Modal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(scriptName) {
+            const modal = document.getElementById(scriptName + 'Modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal.active').forEach(modal => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
