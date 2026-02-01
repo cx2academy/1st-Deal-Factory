@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to 1st Deal Factory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0A0A0A;
+            --bg-card: #171717;
+            --border: #262626;
+            --text-primary: #FAFAFA;
+            --text-secondary: #A3A3A3;
+            --red: #DC2626;
+            --red-hover: #B91C1C;
+            --red-glow: rgba(220, 38, 38, 0.4);
+            --font-display: 'Manrope', system-ui, -apple-system, sans-serif;
+            --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        body.scrollable {
+            overflow-y: auto;
+        }
+
+        /* Progress Bar */
+        .progress-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid var(--border);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-info {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .progress-step {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .progress-bar-container {
+            flex: 1;
+            max-width: 600px;
+            height: 6px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--red);
+            border-radius: 10px;
+            transition: width 0.6s ease;
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+
+        .progress-xp {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            color: var(--red);
+        }
+
+        /* Sections Container */
+        .section {
+            min-height: 100vh;
+            display: none;
+            align-items: center;
+            padding: 6rem 2rem 3rem;
+        }
+
+        .section.active {
+            display: flex;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 650px;
+            margin: 0 auto 3rem;
+            font-weight: 500;
+        }
+
+        /* Video Container */
+        .video-container {
+            aspect-ratio: 16/9;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin: 3rem 0;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 3rem;
+            background: var(--red);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 30px var(--red-glow);
+            text-decoration: none;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: var(--red-hover);
+            box-shadow: 0 0 40px rgba(220, 38, 38, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #404040;
+            color: #737373;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--border);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--red);
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Steps Grid */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .step-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .step-card:hover {
+            border-color: #404040;
+            transform: translateY(-2px);
+        }
+
+        .step-number {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--red);
+        }
+
+        .step-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+            object-fit: contain;
+        }
+
+        .step-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .step-card p {
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Rules Container */
+        .rules-container {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-left: 4px solid var(--red);
+            border-radius: 12px;
+            padding: 3rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .rule-item {
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--border);
+        }
+
+        .rule-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .rule-item h4 {
+            font-family: var(--font-display);
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .rule-item p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Checkbox */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            cursor: pointer;
+            justify-content: center;
+        }
+
+        .custom-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--red);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .custom-checkbox.checked {
+            background: var(--red);
+        }
+
+        .checkbox-label {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Location Cards */
+        .location-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .location-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+        }
+
+        .location-card:hover:not(.locked) {
+            border-color: var(--red);
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .location-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .location-card.locked::after {
+            content: '🔒';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .location-icon {
+            width: 2rem;
+            height: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+            object-fit: contain;
+        }
+
+        .location-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--red);
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .location-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .location-card p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Commitment Section */
+        .commitment-box {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.1) 0%, transparent 100%);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 4rem 3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .commitment-box p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Next Steps */
+        .next-steps-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .next-step-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .next-step-card.primary {
+            border-color: var(--red);
+            box-shadow: 0 0 30px rgba(220, 38, 38, 0.2);
+        }
+
+        .next-step-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            margin: 0 auto 1rem;
+            display: block;
+            object-fit: contain;
+        }
+
+        .next-step-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .next-step-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .next-step-card .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .footer-message {
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-style: italic;
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.125rem;
+            }
+
+            .steps-grid,
+            .location-grid,
+            .next-steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .progress-header {
+                padding: 1rem;
+            }
+
+            .progress-bar-container {
+                max-width: 200px;
+            }
+
+            .commitment-box {
+                padding: 2rem 1.5rem;
+            }
+
+            .commitment-box p {
+                font-size: 1rem;
+            }
+
+            .section {
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Header -->
+    <div class="progress-header">
+        <div class="progress-info">
+            <span class="progress-step" id="progressText">Step 1 of 6</span>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBar" style="width: 16%"></div>
+            </div>
+        </div>
+        <div class="progress-xp" id="xpCounter">
+            <span id="xpValue">0</span> XP
+        </div>
+    </div>
+
+    <div class="sections-container">
+        <!-- Section 1: Hero -->
+        <section class="section active" id="section1">
+            <div class="container hero">
+                <h1>Your First Deal Starts Here</h1>
+                <p class="hero-subtitle">
+                    Most people overcomplicate wholesaling. We don't. 
+                    You'll learn the exact system, take daily action, and close your first deal.
+                    No theory. No fluff. Just execution.
+                </p>
+
+                <!-- 
+                    VIDEO SETUP INSTRUCTIONS:
+                    Replace the src attribute below with your video embed URL.
+                    
+                    For YouTube: Use the embed URL format:
+                    https://www.youtube.com/embed/VIDEO_ID
+                    
+                    For Vimeo: Use the embed URL format:
+                    https://player.vimeo.com/video/VIDEO_ID
+                    
+                    For Wistia: Use the embed URL format:
+                    https://fast.wistia.net/embed/iframe/VIDEO_ID
+                -->
+                <div class="video-container">
+                    <iframe 
+                        id="welcomeVideo"
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+                <button class="btn" id="startBtn" disabled onclick="nextSection()">Start Here →</button>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 1rem;">Watch the video to continue</p>
+            </div>
+        </section>
+
+        <!-- Section 2: How This Works -->
+        <section class="section" id="section2">
+            <div class="container">
+                <div class="section-header">
+                    <h2>How This Works</h2>
+                    <p>Four steps. Nothing complicated.</p>
+                </div>
+
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <span class="step-number">01</span>
+                        <!-- 
+                            ICON SETUP: Replace src with your icon image path
+                            Recommended: PNG files, transparent background, 100x100px minimum
+                        -->
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E📚%3C/text%3E%3C/svg%3E" alt="Learn" class="step-icon">
+                        <h3>Learn the System</h3>
+                        <p>Master the exact framework in 90 minutes. No theory overload. Just what works.</p>
+                    </div>
+
+                    <div class="step-card">
+                        <span class="step-number">02</span>
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E🎯%3C/text%3E%3C/svg%3E" alt="Action" class="step-icon">
+                        <h3>Take Action Daily</h3>
+                        <p>Track your calls, messages, and offers. Consistency beats talent every time.</p>
+                    </div>
+
+                    <div class="step-card">
+                        <span class="step-number">03</span>
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E💬%3C/text%3E%3C/svg%3E" alt="Feedback" class="step-icon">
+                        <h3>Get Real Feedback</h3>
+                        <p>Post your questions. Share your deals. Learn from people doing the work.</p>
+                    </div>
+
+                    <div class="step-card">
+                        <span class="step-number">04</span>
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E🏆%3C/text%3E%3C/svg%3E" alt="Success" class="step-icon">
+                        <h3>Close Your First Deal</h3>
+                        <p>Most people quit before day 30. You won't. Because you have a system and a community.</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <button class="btn" onclick="nextSection()">I Understand →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Rules -->
+        <section class="section" id="section3">
+            <div class="container">
+                <div class="section-header">
+                    <h2>This Isn't a Hobby</h2>
+                    <p>At 1st Deal Factory, we follow a standard. To stay in this community, you execute.</p>
+                </div>
+
+                <div class="rules-container">
+                    <div class="rule-item">
+                        <h4>Execute, Don't Consume</h4>
+                        <p>You're here to take action, not collect information. Watch the content. Then do the work.</p>
+                    </div>
+
+                    <div class="rule-item">
+                        <h4>Respect the Community</h4>
+                        <p>Ask clear questions. Give helpful answers. No spam. No self-promotion.</p>
+                    </div>
+
+                    <div class="rule-item">
+                        <h4>Own Your Results</h4>
+                        <p>Nobody owes you a deal. You earn it through consistent effort and smart execution.</p>
+                    </div>
+
+                    <div class="rule-item">
+                        <h4>Stay Focused</h4>
+                        <p>One strategy. One market. Thirty days minimum. Don't chase shiny objects.</p>
+                    </div>
+
+                    <div class="rule-item">
+                        <h4>Follow Up or Fail</h4>
+                        <p>Most deals close after the fifth touchpoint. If you quit after two, you lose.</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <label class="checkbox-container" onclick="toggleCheckbox('rulesCheck')">
+                        <div class="custom-checkbox" id="rulesCheck"></div>
+                        <span class="checkbox-label">I understand the rules and commit to executing.</span>
+                    </label>
+                    <button class="btn" id="rulesBtn" disabled onclick="nextSection()">I'm Ready to Execute</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Command Center -->
+        <section class="section" id="section4">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Your Command Center</h2>
+                    <p>Here's where you live now.</p>
+                </div>
+
+                <div class="location-grid">
+                    <!-- FREE: Course Library -->
+                    <!-- LINK SETUP: Update href with your course library URL -->
+                    <a href="YOUR_COURSE_LIBRARY_LINK_HERE" class="location-card">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E📖%3C/text%3E%3C/svg%3E" alt="Library" class="location-icon">
+                        <div class="location-label">Learn</div>
+                        <h3>The Course Library</h3>
+                        <p>Complete modules. Watch demos. Download scripts.</p>
+                    </a>
+
+                    <!-- FREE: Discussion Board -->
+                    <!-- LINK SETUP: Update href with your discussion board URL -->
+                    <a href="YOUR_DISCUSSION_BOARD_LINK_HERE" class="location-card">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E💬%3C/text%3E%3C/svg%3E" alt="Community" class="location-icon">
+                        <div class="location-label">Community</div>
+                        <h3>Discussion Board</h3>
+                        <p>Ask questions. Share wins. Get feedback on deals.</p>
+                    </a>
+
+                    <!-- LOCKED: Deal Calculator -->
+                    <!-- LINK SETUP: Update onclick with your checkout link -->
+                    <div class="location-card locked" onclick="window.location.href='YOUR_CHECKOUT_LINK_HERE'">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E🧮%3C/text%3E%3C/svg%3E" alt="Calculator" class="location-icon">
+                        <div class="location-label">Tools</div>
+                        <h3>Deal Calculator</h3>
+                        <p>Run your numbers instantly. Know your offer before you call.</p>
+                    </div>
+
+                    <!-- LOCKED: Action Tracker -->
+                    <!-- LINK SETUP: Update onclick with your checkout link -->
+                    <div class="location-card locked" onclick="window.location.href='YOUR_CHECKOUT_LINK_HERE'">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E📊%3C/text%3E%3C/svg%3E" alt="Tracker" class="location-icon">
+                        <div class="location-label">Accountability</div>
+                        <h3>Action Tracker</h3>
+                        <p>Log your daily activity. Track your consistency.</p>
+                    </div>
+
+                    <!-- LOCKED: Script Library -->
+                    <!-- LINK SETUP: Update onclick with your checkout link -->
+                    <div class="location-card locked" onclick="window.location.href='YOUR_CHECKOUT_LINK_HERE'">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E📝%3C/text%3E%3C/svg%3E" alt="Scripts" class="location-icon">
+                        <div class="location-label">Resources</div>
+                        <h3>Script Library</h3>
+                        <p>Word-for-word scripts for every conversation.</p>
+                    </div>
+
+                    <!-- FREE: Announcements -->
+                    <!-- LINK SETUP: Update href with your announcements URL -->
+                    <a href="YOUR_ANNOUNCEMENTS_LINK_HERE" class="location-card">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E🔔%3C/text%3E%3C/svg%3E" alt="Announcements" class="location-icon">
+                        <div class="location-label">Stay Updated</div>
+                        <h3>Announcements</h3>
+                        <p>Live calls. New content. Important updates.</p>
+                    </a>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="btn" onclick="nextSection()">Continue →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Commitment -->
+        <section class="section" id="section5">
+            <div class="container">
+                <div class="section-header">
+                    <h2>One More Thing</h2>
+                </div>
+
+                <div class="commitment-box">
+                    <p>Most people join communities like this and do nothing.</p>
+                    <p>They watch the content. They read the posts. They tell themselves "tomorrow."</p>
+                    <p>Tomorrow never comes.</p>
+                    <p>You're different. You wouldn't be here if you weren't serious.</p>
+                    <p>So commit right now.</p>
+                    <p>Thirty days. Daily action. No excuses.</p>
+                    <p>That's all it takes to see if this works for you.</p>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <label class="checkbox-container" onclick="toggleCheckbox('commitCheck')">
+                        <div class="custom-checkbox" id="commitCheck"></div>
+                        <span class="checkbox-label">I commit to taking action for the next 30 days.</span>
+                    </label>
+                    <button class="btn" id="commitBtn" disabled onclick="nextSection()">Let's Go →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Next Steps -->
+        <section class="section" id="section6">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Start Here</h2>
+                </div>
+
+                <div class="next-steps-grid">
+                    <div class="next-step-card primary">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E📖%3C/text%3E%3C/svg%3E" alt="Module 1" class="next-step-icon">
+                        <h3>Read Module 1</h3>
+                        <p>The Wholesale System</p>
+                        <!-- LINK SETUP: Update href with your Module 1 URL -->
+                        <a href="YOUR_MODULE_1_LINK_HERE" class="btn">Begin Module 1 →</a>
+                    </div>
+
+                    <div class="next-step-card">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='80' font-size='80'%3E👋%3C/text%3E%3C/svg%3E" alt="Introduce" class="next-step-icon">
+                        <h3>Introduce Yourself</h3>
+                        <p>Tell the community who you are and what market you're in.</p>
+                        <!-- LINK SETUP: Update href with your introduction post URL -->
+                        <a href="YOUR_INTRODUCTION_LINK_HERE" class="btn btn-secondary">Go to Community →</a>
+                    </div>
+                </div>
+
+                <div class="footer-message">
+                    "Your first deal starts with your first action."
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let currentSection = 1;
+        let videoWatched = false;
+        let checkboxes = {
+            rulesCheck: false,
+            commitCheck: false
+        };
+
+        // Video tracking - enables button after 30 seconds
+        setTimeout(() => {
+            videoWatched = true;
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('startBtn').nextElementSibling.textContent = '';
+        }, 30000); // 30 seconds - adjust as needed
+
+        // Manual override for testing (remove in production)
+        // Uncomment the line below to skip video requirement
+        // setTimeout(() => { videoWatched = true; document.getElementById('startBtn').disabled = false; }, 1000);
+
+        function updateProgress(step, xp) {
+            const progressPercent = (step / 6) * 100;
+            document.getElementById('progressText').textContent = `Step ${step} of 6`;
+            document.getElementById('progressBar').style.width = `${progressPercent}%`;
+            animateXP(xp);
+        }
+
+        function animateXP(targetXP) {
+            const xpElement = document.getElementById('xpValue');
+            const currentXP = parseInt(xpElement.textContent);
+            
+            if (currentXP >= targetXP) return;
+            
+            const duration = 800;
+            const steps = 20;
+            const increment = (targetXP - currentXP) / steps;
+            const stepDuration = duration / steps;
+            
+            let current = currentXP;
+            const interval = setInterval(() => {
+                current += increment;
+                if (current >= targetXP) {
+                    xpElement.textContent = targetXP;
+                    clearInterval(interval);
+                } else {
+                    xpElement.textContent = Math.floor(current);
+                }
+            }, stepDuration);
+        }
+
+        function toggleCheckbox(id) {
+            const checkbox = document.getElementById(id);
+            checkboxes[id] = !checkboxes[id];
+            
+            if (checkboxes[id]) {
+                checkbox.classList.add('checked');
+                checkbox.innerHTML = '✓';
+            } else {
+                checkbox.classList.remove('checked');
+                checkbox.innerHTML = '';
+            }
+            
+            if (id === 'rulesCheck') {
+                document.getElementById('rulesBtn').disabled = !checkboxes[id];
+            } else if (id === 'commitCheck') {
+                document.getElementById('commitBtn').disabled = !checkboxes[id];
+            }
+        }
+
+        function nextSection() {
+            // Hide current section
+            const currentSectionEl = document.getElementById(`section${currentSection}`);
+            currentSectionEl.classList.remove('active');
+            
+            // Move to next section
+            if (currentSection < 6) {
+                currentSection++;
+                const nextSectionEl = document.getElementById(`section${currentSection}`);
+                nextSectionEl.classList.add('active');
+                
+                // Update progress
+                const xpValues = [0, 25, 50, 75, 100, 125, 150];
+                updateProgress(currentSection, xpValues[currentSection]);
+                
+                // Scroll to top smoothly
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Enable scrolling on last section
+                if (currentSection === 6) {
+                    document.body.classList.add('scrollable');
+                }
+            }
+        }
+
+        // Initialize
+        updateProgress(1, 25);
+    </script>
+</body>
+</html>
